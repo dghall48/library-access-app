@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+backend/venv/
+*.db
+*.sqlite
+*.sqlite3
+
+# Android
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.aab
+
+# Android Studio
+android-app/LibraryApp/.idea/
+android-app/LibraryApp/app/build/
+android-app/LibraryApp/build/
+android-app/LibraryApp/.gradle/
+android-app/LibraryApp/local.properties
+
+# Sensitive files
+config.local.py
+.env
+secrets.json
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

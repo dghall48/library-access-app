@@ -1,0 +1,348 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Library Access API",
+    "description": "RESTful API for library management system",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Library Access Team",
+      "email": "team@library.com"
+    }
+  },
+  "host": "localhost:5001",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check endpoint",
+        "description": "Check if the API is running",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register a new user",
+        "description": "Create a new user account",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User registration details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["username", "email", "password"],
+              "properties": {
+                "username": { "type": "string", "example": "johndoe" },
+                "email": { "type": "string", "example": "john@example.com" },
+                "password": { "type": "string", "example": "password123" },
+                "full_name": { "type": "string", "example": "John Doe" },
+                "phone": { "type": "string", "example": "555-0123" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Missing required fields"
+          },
+          "409": {
+            "description": "Username or email already exists"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user",
+        "description": "Authenticate user and return user details",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login credentials",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["username", "password"],
+              "properties": {
+                "username": { "type": "string", "example": "testuser" },
+                "password": { "type": "string", "example": "password123" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Missing credentials"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/books": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get all books",
+        "description": "Retrieve all books with optional search and category filter",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "type": "string",
+            "description": "Search by title or author",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "type": "string",
+            "description": "Filter by category",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of books"
+          }
+        }
+      }
+    },
+    "/books/{book_id}": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get book by ID",
+        "description": "Retrieve a specific book by its ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "book_id",
+            "type": "integer",
+            "required": true,
+            "description": "Book ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book details"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      }
+    },
+    "/borrow": {
+      "post": {
+        "tags": ["Borrowing"],
+        "summary": "Borrow a book",
+        "description": "Create a borrowing record for a user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Borrow details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["user_id", "book_id"],
+              "properties": {
+                "user_id": { "type": "integer", "example": 1 },
+                "book_id": { "type": "integer", "example": 5 }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Book borrowed successfully"
+          },
+          "400": {
+            "description": "Book not available or missing fields"
+          }
+        }
+      }
+    },
+    "/return/{record_id}": {
+      "post": {
+        "tags": ["Borrowing"],
+        "summary": "Return a book",
+        "description": "Mark a borrowed book as returned and calculate any fines",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "record_id",
+            "type": "integer",
+            "required": true,
+            "description": "Borrowing record ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book returned successfully"
+          },
+          "404": {
+            "description": "Record not found"
+          }
+        }
+      }
+    },
+    "/user/{user_id}/borrowed": {
+      "get": {
+        "tags": ["Borrowing"],
+        "summary": "Get user's borrowed books",
+        "description": "Retrieve all currently borrowed books for a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "type": "integer",
+            "required": true,
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of borrowed books"
+          }
+        }
+      }
+    },
+    "/reserve": {
+      "post": {
+        "tags": ["Reservations"],
+        "summary": "Reserve a book",
+        "description": "Create a reservation for an unavailable book",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Reservation details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["user_id", "book_id"],
+              "properties": {
+                "user_id": { "type": "integer", "example": 1 },
+                "book_id": { "type": "integer", "example": 3 }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Book reserved successfully"
+          },
+          "400": {
+            "description": "Missing required fields"
+          }
+        }
+      }
+    },
+    "/user/{user_id}/reservations": {
+      "get": {
+        "tags": ["Reservations"],
+        "summary": "Get user's reservations",
+        "description": "Retrieve all active reservations for a user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "type": "integer",
+            "required": true,
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reservations"
+          }
+        }
+      }
+    },
+    "/reviews": {
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Create a review",
+        "description": "Add a rating and review for a book",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Review details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["user_id", "book_id", "rating"],
+              "properties": {
+                "user_id": { "type": "integer", "example": 1 },
+                "book_id": { "type": "integer", "example": 5 },
+                "rating": {
+                  "type": "integer",
+                  "example": 5,
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "review_text": { "type": "string", "example": "Amazing book!" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Review created successfully"
+          },
+          "400": {
+            "description": "Invalid rating or missing fields"
+          }
+        }
+      }
+    },
+    "/books/{book_id}/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get book reviews",
+        "description": "Retrieve all reviews for a specific book",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "book_id",
+            "type": "integer",
+            "required": true,
+            "description": "Book ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reviews"
+          }
+        }
+      }
+    }
+  }
+}

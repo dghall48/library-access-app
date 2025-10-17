@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library API</title>
+    <style>
+      body {
+        font-family: monospace;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 10px;
+      }
+      .status {
+        color: green;
+        font-weight: bold;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      li {
+        margin: 5px 0;
+      }
+      a {
+        color: blue;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Library Access API</h1>
+    <p class="status">✓ Server Running</p>
+
+    <h2>Quick Test</h2>
+    <ul>
+      <li><a href="/api/health">Health Check</a></li>
+      <li><a href="/api/books">View All Books</a></li>
+    </ul>
+
+    <h2>Test Credentials</h2>
+    <p>
+      Username: <code>testuser</code><br />Password: <code>password123</code>
+    </p>
+
+    <h2>Available Endpoints</h2>
+    <ul>
+      <li>POST /api/register - Create account</li>
+      <li>POST /api/login - Login</li>
+      <li>GET /api/books - Get all books</li>
+      <li>POST /api/borrow - Borrow a book</li>
+      <li>POST /api/return/&lt;id&gt; - Return a book</li>
+      <li>POST /api/reserve - Reserve a book</li>
+      <li>POST /api/reviews - Add review</li>
+    </ul>
+
+    <h2>Next Steps</h2>
+    <p>
+      ⬜ Add Swagger documentation<br />
+      ⬜ Build Android mobile app<br />
+      ⬜ Integration testing
+    </p>
+  </body>
+</html>
