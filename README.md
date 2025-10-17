@@ -13,8 +13,8 @@ Mobile library management system - Backend API
 ```bash
 cd backend
 pip3 install -r requirements.txt
-python3 seed_data.py
-python3 app.py
+python seed_data.py
+python app.py
 ```
 
 Visit: http://localhost:5001
